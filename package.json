@@ -32,8 +32,10 @@
     "flow-copy-source": "^1.1.0",
     "husky": "^0.13.3",
     "nyc": "^10.2.0",
+    "rimraf": "^2.6.2",
     "semantic-release": "^15.4.0",
-    "webpack": "^2.4.1"
+    "webpack": "^2.4.1",
+    "cross-env": "^5.1.5"
   },
   "peerDependencies": {
     "webpack": ">2"
@@ -67,9 +69,10 @@
     "url": "https://github.com/gajus/prepack-webpack-plugin"
   },
   "scripts": {
-    "build": "rm -fr ./dist && NODE_ENV=production babel ./src --out-dir ./dist --copy-files --source-maps && flow-copy-source src dist",
+    "build": "rimraf ./dist && cross-env NODE_ENV=production babel ./src --out-dir ./dist --copy-files --source-maps && flow-copy-source src dist",
+    "postinstall": "rimraf ./dist && cross-env NODE_ENV=production babel ./src --out-dir ./dist --copy-files --source-maps && flow-copy-source src dist",
     "lint": "eslint ./src ./test && flow",
-    "test": "NODE_ENV=test nyc --reporter=text ava --verbose --serial"
+    "test": "cross-env NODE_ENV=test nyc --reporter=text ava --verbose --serial"
   },
   "version": "1.0.1"
 }
